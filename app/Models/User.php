@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     // cek pembayaran
     public function hasActiveSubscription(){
-        $latestsubscription = $this->subscribe_transaction()
+        $latestsubscription = $this->subscribe_transactions()
         ->where('is_paid', true)
         ->latest('updated_at')
         ->first();

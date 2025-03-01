@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubscribeTransactionRequest;
+use App\Models\Category;
 use App\Models\Course;
 use App\Models\SubscribeTransaction;
 use Illuminate\Http\Request;
@@ -21,6 +22,11 @@ class FrontController extends Controller
         return view('front.details',compact('course'));
     }
 
+    public function category(Category $category){
+        $courses = $category->courses()->get();
+        return view('front.category', compact("courses"));
+    }
+
     public function pricing(){
         $user = Auth::user();
         if($user->hasActiveSubscription()){ //jika sudah berlangganan
@@ -31,7 +37,7 @@ class FrontController extends Controller
 
     public function checkout(){
         $user = Auth::user();
-        if($user->hasActiveSubscription()){ //jika sudah berlangganan
+        if($user->hasRole('student')->hasActiveSubscription()){ //jika sudah berlangganan
             return redirect()->route('front.index');
         }
         return view('front.checkout');
@@ -40,7 +46,7 @@ class FrontController extends Controller
     public function checkout_store(StoreSubscribeTransactionRequest $request){
         $user = Auth::user();
 
-        if($user->hasActiveSubscription()){ //jika sudah berlangganan
+        if($user->hasRole('student')->hasActiveSubscription()){ //jika sudah berlangganan
             return redirect()->route('front.index');
         }
 

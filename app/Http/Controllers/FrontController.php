@@ -28,25 +28,17 @@ class FrontController extends Controller
     }
 
     public function pricing(){
-        $user = Auth::user();
-        if($user->hasActiveSubscription()){ //jika sudah berlangganan
-            return redirect()->route('front.index');
-        }
         return view('front.pricing');
     }
 
     public function checkout(){
-        $user = Auth::user();
-        if($user->hasRole('student')->hasActiveSubscription()){ //jika sudah berlangganan
-            return redirect()->route('front.index');
-        }
         return view('front.checkout');
     }
 
     public function checkout_store(StoreSubscribeTransactionRequest $request){
         $user = Auth::user();
 
-        if($user->hasRole('student')->hasActiveSubscription()){ //jika sudah berlangganan
+        if($user->hasActiveSubscription()){ //jika sudah berlangganan
             return redirect()->route('front.index');
         }
 

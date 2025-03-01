@@ -60,16 +60,16 @@ class User extends Authenticatable
 
     // cek pembayaran
     public function hasActiveSubscription(){
-        $latestsubscription = $this->subscribe_transactions()
+        $latestSubscription = $this->subscribe_transactions()
         ->where('is_paid', true)
         ->latest('updated_at')
         ->first();
 
-        if (!$latestsubscription){
+        if (!$latestSubscription){
             return false;
         }
 
-        $subscriptionEndDate = Carbon::parse($latestsubscription->subscription_start_date)->addMonth(1);
-        Carbon::now()->lessThanOrEqualTo($subscriptionEndDate) ;// (true) dia berlangganan
+        $subscriptionEndDate = Carbon::parse($latestSubscription->subscription_start_date)->addMonth(1);
+        return Carbon::now()->lessThanOrEqualTo($subscriptionEndDate) ;// (true) dia berlangganan
     }
 }
